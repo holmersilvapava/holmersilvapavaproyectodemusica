@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Presupuesto Proyecto Musical</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F3F4F6;
+            color: #1F2937;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .kpi-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .kpi-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #6B7280;
+            text-transform: uppercase;
+        }
+        .kpi-value {
+            font-size: 2.25rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto max-w-6xl p-4 md:p-8">
+        
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#0047AB] mb-4">Análisis de Presupuesto: Proyecto Musical</h1>
+            <p class="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">Visualización de la estructura de costos y plan de ejecución para el proyecto de $12,000,000 COP.</p>
+        </header>
+
+        <section id="kpis" class="mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="kpi-card">
+                    <h2 class="kpi-title">Presupuesto Total</h2>
+                    <p class="kpi-value text-[#0047AB]">$12,000,000</p>
+                </div>
+                <div class="kpi-card">
+                    <h2 class="kpi-title">Costo Total Estimado</h2>
+                    <p class="kpi-value text-[#FF6347]">$11,228,000</p>
+                </div>
+                <div class="kpi-card">
+                    <h2 class="kpi-title">Margen de Imprevistos</h2>
+                    <p class="kpi-value text-[#32CD32]">$772,000</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="budget-distribution" class="bg-white rounded-lg shadow-md p-6 md:p-8 mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Distribución del Presupuesto Total</h2>
+                    <p class="text-gray-700 mb-4">
+                        El presupuesto total de $12,000,000 se divide en tres categorías principales. Los "Costos Fijos" representan la mayor parte de la inversión, cubriendo todos los honorarios artísticos y de producción. El "Margen de Imprevistos" del 6.4% es vital para la viabilidad del proyecto.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="flex items-center">
+                            <span class="w-4 h-4 rounded-full bg-[#0047AB] mr-2"></span>
+                            <span>Costos Fijos (82.9%)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-4 h-4 rounded-full bg-[#007FFF] mr-2"></span>
+                            <span>Costos Variables (10.7%)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-4 h-4 rounded-full bg-[#32CD32] mr-2"></span>
+                            <span>Margen (6.4%)</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="chart-container">
+                        <canvas id="budgetDonutChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="fixed-costs" class="bg-white rounded-lg shadow-md p-6 md:p-8 mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="md:order-2">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Desglose de Costos Fijos</h2>
+                    <p class="text-gray-700 mb-4">
+                        Los costos fijos ascienden a $9,945,000 y son el núcleo del proyecto. Este gráfico muestra cómo se distribuyen esos fondos, destacando que los "Honorarios principales" y los "Coordinadores" representan las mayores partidas.
+                    </p>
+                    <p class="text-gray-700">
+                        La gráfica de barras horizontales permite una comparación clara entre las 7 categorías de gasto fijo, ordenadas de mayor a menor valor.
+                    </p>
+                </div>
+                <div class="md:order-1">
+                    <div class="chart-container h-[400px] md:h-[450px] max-h-[500px]">
+                        <canvas id="fixedCostsBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="variable-costs" class="bg-white rounded-lg shadow-md p-6 md:p-8 mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Desglose de Costos Variables</h2>
+                    <p class="text-gray-700 mb-4">
+                        Los costos variables suman $1,283,000, cubriendo la logística esencial del proyecto. Esta sección se divide únicamente en dos componentes críticos: el transporte del personal y los refrigerios para las tres iglesias.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="flex items-center">
+                            <span class="w-4 h-4 rounded-full bg-[#0047AB] mr-2"></span>
+                            <span>Transporte (62.4%)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-4 h-4 rounded-full bg-[#007FFF] mr-2"></span>
+                            <span>Refrigerios (37.6%)</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="chart-container">
+                        <canvas id="variableCostsPieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="execution-plan" class="mb-12">
+            <h2 class="text-4xl font-bold text-center text-gray-900 mb-10">Plan de Ejecución por Etapas</h2>
+            <div class="relative px-4">
+                <div class="hidden md:block absolute h-full border-l-4 border-dashed border-[#007FFF] left-1/2 transform -translate-x-1/2"></div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+                    
+                    <div class="md:text-right md:pr-12">
+                        <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#0047AB]">
+                            <h3 class="text-2xl font-bold text-[#0047AB] mb-3">ETAPA 1: Confirmaciones</h3>
+                            <ul class="list-disc list-outside text-gray-700 space-y-1 text-left md:text-right pl-5 md:pl-0">
+                                <li>Confirmar locación Blas de Lezo (sonido).</li>
+                                <li>Validar si concierto rural incluye transporte.</li>
+                                <li>Confirmar disponibilidad de instrumentistas.</li>
+                                <li>Gestionar permisos de parroquias.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="hidden md:block"></div>
+
+                    <div class="hidden md:block"></div>
+                    <div class="md:pl-12">
+                        <div class="bg-white p-6 rounded-lg shadow-md border-l-4 md:border-l-0 md:border-r-4 border-[#007FFF]">
+                            <h3 class="text-2xl font-bold text-[#007FFF] mb-3">ETAPA 2: Logística</h3>
+                            <ul class="list-disc list-outside text-gray-700 space-y-1 pl-5">
+                                <li>Cotizar y contratar buses (3 empresas).</li>
+                                <li>Definir rutas de transporte.</li>
+                                <li>Comprar refrigerios y crear lista de entrega.</li>
+                                <li>Verificar equipos de amplificación.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="md:text-right md:pr-12">
+                        <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#FFD700]">
+                            <h3 class="text-2xl font-bold text-[#DAA520] mb-3">ETAPA 3: Musical</h3>
+                            <ul class="list-disc list-outside text-gray-700 space-y-1 text-left md:text-right pl-5 md:pl-0">
+                                <li>Realizar ensayo general.</li>
+                                <li>Programar pruebas de sonido en iglesias.</li>
+                                <li>Confirmar repertorio final.</li>
+                                <li>Distribuir partituras (Instrumentistas, Coro, Solistas).</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="hidden md:block"></div>
+                    
+                    <div class="hidden md:block"></div>
+                    <div class="md:pl-12">
+                        <div class="bg-white p-6 rounded-lg shadow-md border-l-4 md:border-l-0 md:border-r-4 border-[#FF6347]">
+                            <h3 class="text-2xl font-bold text-[#FF6347] mb-3">ETAPA 4: Ejecución</h3>
+                            <ul class="list-disc list-outside text-gray-700 space-y-1 pl-5">
+                                <li>Concierto 1: Bocagrande</li>
+                                <li>Concierto 2: Campestre</li>
+                                <li>Concierto 3: Blas de Lezo</li>
+                                <li>Concierto 4: Sofitel Santa Clara</li>
+                                <li>Concierto súbito: Corales</li>
+                                <li>Concierto súbito: Rural</li>
+                                <li>Cierre y conciliación de cuentas.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const formatCurrency = (value) => new Intl.NumberFormat('es-CO', { 
+                style: 'currency', 
+                currency: 'COP', 
+                minimumFractionDigits: 0 
+            }).format(value);
+
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                } else {
+                    return label;
+                }
+            };
+
+            const tooltipLabelCallback = (context) => {
+                let label = context.dataset.label || '';
+                if (label) {
+                    label += ': ';
+                }
+                if (context.parsed !== null) {
+                    label += formatCurrency(context.parsed);
+                }
+                return label;
+            };
+
+            const pieTooltipLabelCallback = (context) => {
+                let label = context.label || '';
+                if (label) {
+                    label += ': ';
+                }
+                if (context.raw !== null) {
+                    label += formatCurrency(context.raw);
+                }
+                return label;
+            };
+
+            const commonTooltipConfig = {
+                backgroundColor: '#1F2937',
+                titleFont: { size: 14, weight: 'bold' },
+                bodyFont: { size: 12 },
+                padding: 10,
+                cornerRadius: 4,
+                displayColors: false,
+                callbacks: {
+                    title: tooltipTitleCallback
+                }
+            };
+            
+            const budgetDonutCtx = document.getElementById('budgetDonutChart').getContext('2d');
+            new Chart(budgetDonutCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Costos Fijos', 'Costos Variables', ['Margen de', 'Imprevistos']],
+                    datasets: [{
+                        data: [9945000, 1283000, 772000],
+                        backgroundColor: ['#0047AB', '#007FFF', '#32CD32'],
+                        borderColor: '#FFFFFF',
+                        borderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            ...commonTooltipConfig,
+                            callbacks: {
+                                title: tooltipTitleCallback,
+                                label: pieTooltipLabelCallback
+                            }
+                        }
+                    }
+                }
+            });
+
+            const fixedCostsBarCtx = document.getElementById('fixedCostsBarChart').getContext('2d');
+            new Chart(fixedCostsBarCtx, {
+                type: 'bar',
+                data: {
+                    labels: [
+                        ['Honorarios', 'principales'], 
+                        'Coordinadores', 
+                        'Instrumentistas', 
+                        'Concierto Corales', 
+                        'Concierto Rural', 
+                        ['Dirección', 'musical'], 
+                        'Solistas'
+                    ],
+                    datasets: [{
+                        label: 'Costo Fijo',
+                        data: [4365000, 1570000, 1350000, 1000000, 1000000, 500000, 160000],
+                        backgroundColor: [
+                            '#0047AB', 
+                            '#007FFF', 
+                            '#FFD700', 
+                            '#FF6347', 
+                            '#32CD32', 
+                            '#0047AB', 
+                            '#007FFF'
+                        ],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    if (value >= 1000000) {
+                                        return '$' + (value / 1000000) + 'M';
+                                    }
+                                    if (value >= 1000) {
+                                        return '$' + (value / 1000) + 'K';
+                                    }
+                                    return '$' + value;
+                                }
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                autoSkip: false,
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            ...commonTooltipConfig,
+                            callbacks: {
+                                title: tooltipTitleCallback,
+                                label: tooltipLabelCallback
+                            }
+                        }
+                    }
+                }
+            });
+
+            const variableCostsPieCtx = document.getElementById('variableCostsPieChart').getContext('2d');
+            new Chart(variableCostsPieCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Transporte', 'Refrigerios'],
+                    datasets: [{
+                        data: [800000, 483000],
+                        backgroundColor: ['#0047AB', '#007FFF'],
+                        borderColor: '#FFFFFF',
+                        borderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            ...commonTooltipConfig,
+                            callbacks: {
+                                title: tooltipTitleCallback,
+                                label: pieTooltipLabelCallback
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
